@@ -12178,3 +12178,14 @@ fieldset:disabled .btn {
   }
 }
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.my_header {
+  height: 100px;
+  background-color: #0282F9;
+}
+
