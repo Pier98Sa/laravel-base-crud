@@ -26,7 +26,7 @@ class ComicController extends Controller
      */
     public function create()
     {
-        return view('comics.create');
+        return view('comics.create')->with('status','Nuovo fumetto aggiunto alla lista');
     }
 
     /**
@@ -37,6 +37,16 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'thumb' => 'required|url',
+            'title' => 'required|min:5',
+            'price' => 'required|numeric|min:0',
+            'series' => 'required|min:5',
+            'sale_date' => 'required|date',
+            'type' => 'required|min:5',
+            'description' => 'required|min:20'
+        ]);
+
         $data = $request->all();
         $fumetto = new Comic();
         $fumetto-> fill($data);
@@ -62,9 +72,9 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comic $comic)
     {
-        //
+        return view('comics.edit', compact('comic'));
     }
 
     /**
@@ -74,9 +84,23 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comic $comic)
     {
-        //
+        $request->validate([
+            'thumb' => 'required|url',
+            'title' => 'required|min:5',
+            'price' => 'required|numeric|min:0',
+            'series' => 'required|min:5',
+            'sale_date' => 'required|date',
+            'type' => 'required|min:5',
+            'description' => 'required|min:20'
+        ]);
+        
+        $data = $request->all();
+        $comic->update($data);
+        $comic->save();
+
+        return redirect()->route('comic.show', ['comic' => $comic->id]);
     }
 
     /**
@@ -85,8 +109,9 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comic $comic)
     {
-        //
+        $comic->delete();
+        return redirect()->route('comic.index')->with('status','Fumetto correttamente rimosso dalla lista');
     }
 }

@@ -38,8 +38,16 @@
                             <td >{{$comic->sale_date}}</td>
                             <td >{{$comic->type}}</td>
                             <!--tasto per andare direttamente al singolo fumetto-->
-                            <td>
-                                <a class="btn btn-primary text-white" href="{{ route('comic.show', $comic->id) }}" role="button">View</a>
+                            <td >
+                                <a class="btn btn-success text-white w-100" href="{{ route('comic.show', $comic->id) }}" role="button">View</a>
+                                <a class="btn btn-primary text-white w-100 my-2" href="{{ route('comic.edit', $comic->id) }}" role="button">Edit</a>
+                                
+                                <form action="{{route('comic.destroy', ['comic' => $comic->id])}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+    
+                                    <button type="submit" class="btn btn-danger text-white w-100" onclick="return confirm('Sei sicuro di voler cancellare il fumetto dalla tua lista ?')">Remove</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
