@@ -42,12 +42,43 @@
                                 <a class="btn btn-success text-white w-100" href="{{ route('comic.show', $comic->id) }}" role="button">View</a>
                                 <a class="btn btn-primary text-white w-100 my-2" href="{{ route('comic.edit', $comic->id) }}" role="button">Edit</a>
                                 
-                                <form action="{{route('comic.destroy', ['comic' => $comic->id])}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-    
-                                    <button type="submit" class="btn btn-danger text-white w-100" onclick="return confirm('Sei sicuro di voler cancellare il fumetto dalla tua lista ?')">Remove</button>
-                                </form>
+
+                               <!-- Button trigger modal -->
+                                <span  class="btn btn-danger text-white w-100 " onclick="btnDelete({{$comic->id}});" data-bs-toggle="modal" data-bs-target="#cancel" >
+                                    Remove
+                                </span>
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="cancel" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Eliminazione </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <p>Sei sicuro di voler cancellare il fumetto dalla tua lista ?</p>
+                                            </div>
+
+                                            <div class="modal-footer">
+
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                                <form action="" id='myForm' method="post" name="myForm">
+                                                    @csrf
+                                                    @method('DELETE')
+                    
+                                                    <button type="submit"  class="btn btn-danger text-white">Remove</button>
+                                                </form>
+                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </td>
                         </tr>
                     @endforeach
@@ -56,12 +87,10 @@
             </table>
         </div>
     </main>
-    
 
 
+@endsection 
 
-
-
-
-
+@section('other_script')
+    <script src="{{asset('js/partials/index.js')}}"></script> 
 @endsection
